@@ -1,0 +1,33 @@
+# This file can update the JupyterHub Helm chart's default configuration values.
+#
+# For reference see the configuration reference and default values, but make
+# sure to refer to the Helm chart version of interest to you!
+#
+# Introduction to YAML:     https://www.youtube.com/watch?v=cdLNKUoMc6c
+# Chart config reference:   https://zero-to-jupyterhub.readthedocs.io/en/stable/resources/reference.html
+# Chart default values:     https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/HEAD/jupyterhub/values.yaml
+# Available chart versions: https://jupyterhub.github.io/helm-chart/
+
+proxy:
+  https:
+    enabled: true
+    hosts:
+      - www.iguide.geoedf.org
+    letsencrypt:
+      contactEmail: <email>
+hub:
+  config:
+    CILogonOAuthenticator:
+      client_id: 
+      client_secret: 
+      oauth_callback_url: https://www.iguide.geoedf.org/hub/oauth_callback
+      username_claim: email
+      admin_users:
+    JupyterHub:
+      authenticator_class: cilogon
+singleuser:
+  image:
+    name: rkalyana/iguide-singleuser
+    tag: nbgit
+  extraEnv:
+    JUPYTER_INSTANCE_URL: "https://www.iguide.geoedf.org"

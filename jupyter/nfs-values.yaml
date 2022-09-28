@@ -1,0 +1,5 @@
+nfs:
+  server: <ip-address>
+  path: /homes
+storageClass:
+  pathPattern: "${.PVC.namespace}-${.PVC.name}"
