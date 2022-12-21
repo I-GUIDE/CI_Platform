@@ -1,0 +1,29 @@
+FROM jupyter/base-notebook
+
+USER root 
+
+RUN apt-get update && apt-get -y install git g++ make
+
+USER ${NB_UID}
+
+ADD ciplatform.yml /tmp/
+
+ADD ewd.yml /tmp/
+
+WORKDIR /tmp
+
+RUN conda install ipykernel ipywidgets nb_conda_kernels nbgitpuller mamba
+
+RUN conda create -n iguide python=3.8
+
+RUN conda create -n iguide-ewd python=3.8
+
+RUN mamba env update --name iguide --file ciplatform.yml
+
+RUN mamba env update --name iguide-ewd --file ewd.yml
+
+RUN conda install -n iguide -c conda-forge ipympl
+
+RUN conda install -n iguide-ewd -c conda-forge ipympl
+
+WORKDIR /home/jovyan

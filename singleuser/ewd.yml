@@ -1,0 +1,33 @@
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - pip
+  - numba==0.56.3
+  - gdal
+  - fiona  
+  - rasterio
+  - pillow
+  - ipyleaflet
+  - osmnx
+  - mapclassify
+  - mplleaflet
+
+  - pip:
+    - jupyter_contrib_nbextensions
+    - utm
+    - RISE
+    - matplotlib
+    - matplotlib_scalebar
+    - geopandas
+    - shapely
+    - folium
+    - earthpy
+    - pysal
+    - textblob
+    - wordcloud
+    - spatialite
+    - geojson
+    - pyarrow
+    - tensorflow
+    - mordecai
