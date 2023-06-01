@@ -16,7 +16,6 @@ dependencies:
   - pip:
     - jupyter_contrib_nbextensions
     - utm
-    - RISE
     - matplotlib
     - matplotlib_scalebar
     - geopandas

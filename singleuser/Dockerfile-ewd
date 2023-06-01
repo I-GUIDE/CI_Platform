@@ -2,7 +2,7 @@ FROM jupyter/base-notebook
 
 USER root 
 
-RUN apt-get update && apt-get -y install git g++ make
+RUN apt-get update && apt-get -y install git g++ make ttf-mscorefonts-installer
 
 USER ${NB_UID}
 
@@ -25,5 +25,11 @@ RUN mamba env update --name iguide-ewd --file ewd.yml
 RUN conda install -n iguide -c conda-forge ipympl
 
 RUN conda install -n iguide-ewd -c conda-forge ipympl
+
+RUN pip install RISE
+
+RUN jupyter nbextension enable init_cell/main --sys-prefix
+
+RUN jupyter nbextension enable python-markdown/main --sys-prefix
 
 WORKDIR /home/jovyan
