@@ -1,7 +1,6 @@
 # Author: Rajesh Kalyanam <rkalyana@purdue.edu>
 # Adapted from: https://hub.docker.com/repository/docker/alexandermichels/cybergisx-dev
 FROM jupyter/base-notebook:2023-06-13
-#FROM jupyter/base-notebook:2022-07-25
 
 USER root
 
