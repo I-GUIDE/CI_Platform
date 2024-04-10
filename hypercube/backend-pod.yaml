@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hypercube-backend-pod
+  labels:
+    app: hypercube-backend
+spec:
+  containers:
+    - name: hypercube-backend-container
+      image: rkalyana/iguide-hypercube-backend:alpha
+      ports:
+      - containerPort: 8000
