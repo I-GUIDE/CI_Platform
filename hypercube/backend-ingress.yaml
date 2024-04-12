@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: backend.geoedf.org
+    http:
+      paths:
+      - path: /geolocation
+        pathType: Prefix
+        backend:
+          service:
+            name: hypercube-backend
+            port:
+              number: 8000

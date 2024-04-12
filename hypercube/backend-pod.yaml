@@ -8,5 +8,6 @@ spec:
   containers:
     - name: hypercube-backend-container
       image: rkalyana/iguide-hypercube-backend:alpha
+      imagePullPolicy: Never
       ports:
       - containerPort: 8000

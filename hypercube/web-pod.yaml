@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: hypercube-web-container
-      image: rkalyana/iguide-hypercube-web:alpha
+      image: rkalyana/iguide-hypercube-web:backend
       ports:
       - containerPort: 3000
