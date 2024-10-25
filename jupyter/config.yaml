@@ -12,22 +12,77 @@ proxy:
   https:
     enabled: true
     hosts:
-      - www.iguide.geoedf.org
-    letsencrypt:
-      contactEmail: <email>
+      - jupyter.iguide.illinois.edu
+    type: secret
+    secret:
+      name: <retracted>
+prePuller:
+  hook:
+    enabled: false
+  continuous:
+    enabled: false
+cull:
+ enabled: true
+ timeout: 600
+ every: 600
+ users: False
+ maxAge: 10800
 hub:
   config:
     CILogonOAuthenticator:
-      client_id: 
-      client_secret: 
-      oauth_callback_url: https://www.iguide.geoedf.org/hub/oauth_callback
+      client_id: cilogon:/client_id/<retracted>
+      client_secret: <retracted>
+      oauth_callback_url: https://jupyter.iguide.illinois.edu/hub/oauth_callback
       username_claim: email
-      admin_users:
+      username_pattern: '.*\.(edu|org)$'
     JupyterHub:
       authenticator_class: cilogon
+  extraConfig:
+    templates: |
+      ## Configure JupyterHub to look for the templates we inject with a ConfigMap
+      c.JupyterHub.template_paths.insert(0, "/etc/jupyterhub/templates")
+  extraVolumes:
+    ## Make the hub pod be able to access a ConfigMap volume
+    - name: hub-templates
+      configMap:
+        name: hub-templates
+  extraVolumeMounts:
+    ## Make the hub pod hub container mount that ConfigMap volume
+    - mountPath: /etc/jupyterhub/templates
+      name: hub-templates
 singleuser:
-  image:
-    name: rkalyana/iguide-singleuser
-    tag: nbgit
+  memory:
+    limit: 8G
+    guarantee: 4G
+  cpu:
+    limit: 2
+    guarantee: 1
+  image: 
+    name: rkalyana/iguide-singleuser-cvmfs
+    tag: nbfetch
+  lifecycleHooks:
+    postStart:
+      exec:
+        command: ["/bin/bash","/cvmfs/iguide.purdue.edu/software/scripts/iguide/pre-start-notebook.sh"]
   extraEnv:
-    JUPYTER_INSTANCE_URL: "https://www.iguide.geoedf.org"
+    JUPYTER_INSTANCE_URL: "https://jupyter.iguide.illinois.edu"
+  storage:
+    extraVolumes:
+        - name: data-volume
+          cephfs:
+            monitors:
+            - <retracted>
+            user: <retracted>
+            secretRef:
+              name: <retracted>
+            readOnly: false
+            path: <retracted>
+        - name: iguide-cvmfs
+          persistentVolumeClaim:
+            claimName: cvmfs-iguide
+    extraVolumeMounts:
+        - name: iguide-cvmfs
+          mountPath: /cvmfs/iguide.purdue.edu
+        - name: data-volume
+          mountPath: /share
+          readOnly: false
